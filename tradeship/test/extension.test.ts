@@ -48,8 +48,8 @@ suite("Extension Tests", () => {
                 done();
             });
         });
-        test("organize imports", (done) => {
-            workspace.openTextDocument(newfile)
+        test("organize imports", () => {
+            return workspace.openTextDocument(newfile)
                 .then((doc) => window.showTextDocument(doc))
                 .then((ed) => commands.executeCommand("tradeship.organizeImports"))
                 .then(timelag)
@@ -57,7 +57,6 @@ suite("Extension Tests", () => {
                 .then(() => {
                     const ed = window.activeTextEditor;
                     assert(0 < ed.document.getText().indexOf("require"));
-                    done();
                 });
         });
     });
