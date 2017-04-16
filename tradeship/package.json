@@ -1,0 +1,117 @@
+{
+  "name": "vscode-tradeship",
+  "displayName": "vscode-tradeship",
+  "description": "Integrates Tradeship into VS Code.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "publisher": "taichi",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "icon": "tradeship-icon_128x128.png",
+  "galleryBanner": {
+    "color": "#5acbe3",
+    "theme": "light"
+  },
+  "categories": [
+    "Formatters"
+  ],
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact",
+    "onCommand:tradeship.organizeImports",
+    "onCommand:tradeship.showOutputChannel"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "tradeship",
+      "properties": {
+        "tradeship.nodePath": {
+          "type": "string",
+          "default": null,
+          "description": "A path added to NODE_PATH when resolving the tradeship module."
+        },
+        "tradeship.organizeImportsOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Turns organize imports on save on or off."
+        },
+        "tradeship.trace": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VSCode and the tradeship service."
+        }
+      }
+    },
+    "commands": [
+      {
+        "title": "Organize imports",
+        "category": "tradeship",
+        "command": "tradeship.organizeImports"
+      },
+      {
+        "title": "Show Output Channel",
+        "category": "tradeship",
+        "command": "tradeship.showOutputChannel"
+      }
+    ]
+  },
+  "scripts": {
+    "clean": "rimraf out",
+    "clean:all": "run-p clean clean:server dispose-link",
+    "clean:server": "cd ../tradeship-server && npm run clean",
+    "prepare": "run-s prepare:server prepare:client",
+    "prepare:client": "npm uninstall vscode-tradeship-server && npm link vscode-tradeship-server",
+    "prepare:server": "cd ../tradeship-server && npm link",
+    "compile": "tsc -p ./",
+    "watch": "npm-run-all prepare --parallel watch:*",
+    "watch:client": "tsc -watch -p ./",
+    "watch:server": "cd ../tradeship-server && npm run watch",
+    "vscode:link": "node ./node_modules/vscode/bin/install",
+    "dispose-link": "run-p dispose-link:*",
+    "dispose-link:client": "npm unlink vscode-tradeship-server",
+    "dispose-link:server": "cd ../tradeship-server && npm unlink",
+    "install:all": "npm run install:server && npm install",
+    "install:server": "cd ../tradeship-server && npm install",
+    "vscode:prepublish": "run-s clean:all install:all compile",
+    "postinstall": "npm run vscode:link",
+    "lint": "run-p lint:*",
+    "lint:client": "tslint src/**.ts",
+    "lint:server": "cd ../tradeship-server && npm run lint",
+    "test": "cross-env CODE_TESTS_WORKSPACE=../test node ./node_modules/vscode/bin/test"
+  },
+  "dependencies": {
+    "vscode-jsonrpc": "^3.2.0",
+    "vscode-languageclient": "^3.2.0",
+    "vscode-languageserver-types": "^3.2.0",
+    "vscode-tradeship-server": "../tradeship-server"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "0.0.35",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.45",
+    "cross-env": "^3.1.3",
+    "fs-extra": "^1.0.0",
+    "mocha": "^2.3.3",
+    "npm-run-all": "^3.1.1",
+    "rimraf": "^2.6.1",
+    "tslint": "^5.1.0",
+    "typescript": "^2.2.2",
+    "vscode": "^1.0.0"
+  },
+  "homepage": "https://github.com/taichi/vscode-tradeship",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taichi/vscode-tradeship"
+  },
+  "bugs": {
+    "url": "https://github.com/taichi/vscode-tradeship/issues"
+  }
+}

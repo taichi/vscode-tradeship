@@ -1,0 +1,16 @@
+install:
+  - ps: Install-Product node 6.9 
+  - cd tradeship && npm run install:all
+
+before_build:
+  - cd tradeship && npm run lint
+
+build_script:
+  - cd tradeship && npm run compile
+
+test_script:
+  - cd test && npm install
+  - cd tradeship && npm test
+
+cache:
+  - tradeship\.vscode-test

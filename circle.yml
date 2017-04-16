@@ -1,0 +1,14 @@
+machine:
+  node: 
+    version: 6.9 
+
+dependencies:
+  override:
+    - cd tradeship && npm run install:all 
+    - cd tradeship && npm run lint
+    - cd tradeship && npm run compile
+
+test:
+  override:
+    - cd test && npm install
+    - cd tradeship && npm test
