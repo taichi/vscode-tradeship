@@ -1,0 +1,12 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "tradeship": "0.0.13"
+  },
+  "author": "taichi",
+  "license": "MIT"
+}
