@@ -38,9 +38,9 @@ suite("Extension Tests", () => {
         const original = `${workspace.rootPath}/testtest.js`;
         const newfile = `${workspace.rootPath}/testtest2.js`;
         const timelag = () => new Promise((resolve) => setTimeout(resolve, 300));
-        setup((done) => {
-            internals.client.onReady().then(done);
+        setup(() => {
             fs.copySync(original, newfile);
+            return internals.client.onReady();
         });
         teardown((done) => {
             fs.unlink(newfile, (err) => {
